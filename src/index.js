@@ -1,61 +1,53 @@
+import Notiflix, { Notify } from 'notiflix';
 
-import './css/styles.css';
-import { fetchCountries } from './fetchCountries';
-import debounce from 'lodash.debounce';
-import { Notify } from 'notiflix/build/notiflix-notify-aio';
+const submitBtn = document.querySelector('.submit-btn');
+const input = document.querySelector('.input');
+const searchForm = document.querySelector('.search-form');
+const imagesContainer = document.querySelector('.gallery');
+const loadMoreBtn = document.querySelector('.load-more');
+const API_KEY = '24549161-d9016794db06e42eaadc07c38';
+const BASE_URL = 'https://pixabay.com';
 
-const input = document.querySelector('#search-box');
-const countryInfoCard = document.querySelector('.country-info');
-const countryList = document.querySelector('.country-list');
+input.addEventListener('input', onInput);
+searchForm.addEventListener('submit', onFormSubmit);
+submitBtn.addEventListener('click', searchImages);
 
-const DEBOUNCE_DELAY = 300;
-
-input.addEventListener('input', debounce(searchCountry, DEBOUNCE_DELAY));
-
-function searchCountry () {
-    
-    const name = input.value.trim();
-    console.log(name);
-        fetchCountries(name).then(showCountryCard).catch(showError)
-}
-
-function showCountryCard(counrtries) {
-    clearPage();
-
-    if (counrtries.length > 10) {
-        // clearPage();
-        return Notify.success("Too many matches found. Please enter a more specific name.");
-        
-       } 
-    else if ((counrtries.length >= 2) && (counrtries.length <= 10)) {
-        // clearPage();
-        console.log("--------");
-        counrtries.map(({ name, flags }) => {
-        countryList.insertAdjacentHTML('beforeend', `<li class ="country-list__item"><img class = "flag" src='${flags.svg}' alt="flag" width="60" height="30"></img>${name.official}</li>`)  
-        })
+class ImagesApiService {
+    constructor() {
+        this.searchQuery = '';
+        this.page = 1;
     }
-    else if (counrtries.length === 1) {
-        // clearPage();
-        counrtries.map(({ name, capital, population, flags, languages }) => {
-        let langs = [];
-        Object.values(languages).forEach(language => {
-            langs.push(language);
-        });
-        countryInfoCard.innerHTML = `<h2 class = "title"><img class = "flag" src="${flags.svg}" alt="flag" width="60" height="30"></img>${name.official}</h2>
-  <h3>Capital : <span class = "text">${capital}</span></h3>
-  <h3>Population : <span class = "text">${population}</span></h3>
-  <h3>Languages : <span class = "text">${langs}</span></h3>`;
-    })
-}
-
 }
 
 
-function showError() {
-    return Notify.failure("Oops, there is no country with that name");
+// const pixabayAPI = {
+
+//     baseUrl: 'https://pixabay.com/api/',
+//     key: API_KEY,
+//     image_type: "photo",
+//     orientation: "horizontal",
+//     safesearch: "true",
+//     page: '1',
+//     per_page: "40",
+
+// };
+
+
+
+
+function onInput() {
+    const searchQuery = input.value.trim();
+    console.log(searchQuery);
 }
-function clearPage() {
-    countryInfoCard.innerHTML = '';
-    countryList.innerHTML = '';
+
+function onFormSubmit(evt) {
+    evt.preventDefault();
 }
+
+function searchImages() {
+    
+}
+
+
+
 
