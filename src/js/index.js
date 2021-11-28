@@ -1,4 +1,3 @@
-import '/./sass/main.css';
 import { searchImages } from './api';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import SimpleLightbox from 'simplelightbox';
