@@ -40,6 +40,13 @@ function onSearchFormSabmit(e) {
 function fetchImages() {
 const searchQuery = searchQueryInput.value.trim();
     console.log(searchQuery);
+    if (searchQuery === '') {
+      console.log('пустая строка');
+      Notify.failure(`Sorry, there are no images matching your search query. Please try again.`);
+      loadMoreBtn.hide();
+      return
+    }
+
     searchImages(searchQuery, page, perPage)
         .then(({ data }) => {
           console.log(data.hits);
